@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FinShield</title>
+    <meta name="description" content="FinShield uses AI to detect shark finning on decks and accelerates AIS intelligence to spot IUU fishing." />
+    <!-- Favicons: white for light mode, black for dark; 16x/32x variants -->
+    <!-- Fallback (no color-scheme support) → Black -->
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-Black-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-Black-32x32.png">
+    <!-- Light mode → White -->
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-White-16x16.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-White-32x32.png" media="(prefers-color-scheme: light)">
+    <!-- Dark mode → Black -->
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-Black-16x16.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-Black-32x32.png" media="(prefers-color-scheme: dark)">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a class="brand" href="#intro" aria-label="FinShield home">
+          <img src="assets/Logo transparent.png" alt="FinShield logo" class="logo" />
+        </a>
+        <nav class="menu" aria-label="Primary">
+          <button class="btn primary" data-open-demo>Book demo</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Intro / Hero -->
+      <section id="intro" class="section hero">
+        <div class="container">
+          <p class="eyebrow">Ocean protection, powered by AI</p>
+          <h1>Detect shark finning.</h1>
+          <h1>Spot IUU fishing.</h1>
+          <p class="subtitle center">
+            FinShield combines real time AI object detection technology with accelerated AIS intelligence.
+            Together they detect illegal shark finning activity and IUU fishing as they happen.</p>
+          <div class="cta-row center">
+            <button class="btn primary" data-open-demo>Book Demo</button>
+            <a class="btn ghost" href="https://www.oceanstartupproject.ca/" target="_blank" rel="noopener">Our Sponsors</a>
+          </div>
+
+          <!-- Backed by band -->
+          <div id="sponsors" class="backed-by">
+            <div class="backed-title">Our Sponsor</div>
+            <div class="sponsor-logos">
+              <img src="assets/Sponsor.transparent.png" alt="Ocean Startup Project" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technology -->
+      <section id="technology" class="section tech">
+        <div class="container">
+          <header class="section-header center">
+            <p class="eyebrow">How it works</p>
+            <h2>Two equal pillars, one mission</h2>
+            <p class="section-subtitle">Real‑time deck monitoring pairs with AIS analytics for complete coverage.</p>
+          </header>
+
+          <div class="features">
+            <article class="feature">
+              <div class="feature-head">
+                <h3>On‑deck AI object detection</h3>
+                <p>Detects shark finning on boat decks using existing cameras and edge processing.</p>
+              </div>
+              <div class="feature-text">
+                <p>Computer vision runs on edge devices or IP cameras to continuously monitor decks. When risk is detected, the system emits an event and optional clip for immediate review — not a full video stream.</p>
+                <p>Designed for privacy and bandwidth efficiency: analysis happens locally, and only structured alerts are sent to shore.</p>
+              </div>
+            </article>
+
+            <article class="feature">
+              <div class="feature-head">
+                <h3>Accelerated AIS intelligence</h3>
+                <p>Fast analysis highlights patterns associated with IUU fishing for rapid response.</p>
+              </div>
+              <div class="feature-text">
+                <p>We enrich AIS with ML to flag suspicious behavior such as loitering, dark activity, and transshipment. Vessels receive a rolling risk score and trend indicators.</p>
+                <p>Insights are available via a simple console or API, and can trigger alerts for your ops stack.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="section contact">
+        <div class="container">
+          <header class="section-header center">
+            <h2>Contact</h2>
+            <p class="section-subtitle">Have a question? Send us a note.</p>
+          </header>
+          <form id="contactForm" class="contact-form" novalidate>
+            <div class="form-grid">
+              <label>
+                <span>Name</span>
+                <input name="name" type="text" placeholder="Your name" required />
+              </label>
+              <label>
+                <span>Company</span>
+                <input name="company" type="text" placeholder="Company" />
+              </label>
+              <label class="full">
+                <span>Email</span>
+                <input name="email" type="email" placeholder="you@example.com" required />
+              </label>
+              <label class="full">
+                <span>Message</span>
+                <textarea name="message" rows="4" placeholder="How can we help?" required></textarea>
+              </label>
+            </div>
+            <div class="modal-actions">
+              <button class="btn ghost" type="reset">Clear</button>
+              <button class="btn primary" type="submit">Send message</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Bottom bar -->
+      <section class="footer-cta">
+        <div class="container bar">
+          <div class="bar-left">
+            <img src="assets/Logo transparent.png" alt="FinShield logo" class="logo small" />
+          </div>
+          <div class="bar-right">
+            <span>Contact us</span>
+            <div class="bar-actions">
+              <a class="btn ghost" href="https://www.linkedin.com/in/sachin-purewal-3672052a2/" target="_blank" rel="noopener">Founder</a>
+              <a class="btn primary" href="https://www.linkedin.com/company/finshieldai/?viewAsMember=true" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Demo Modal -->
+    <dialog id="demoModal" class="modal">
+      <form method="dialog" class="modal-inner" id="demoForm">
+        <header class="modal-header">
+          <h3>Book a demo</h3>
+          <button class="icon-btn" type="button" data-close>&times;</button>
+        </header>
+
+        <div class="form-grid">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" placeholder="Your name" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" placeholder="you@example.com" required />
+          </label>
+          <label>
+            <span>Organization</span>
+            <input type="text" name="org" placeholder="Company / Org" />
+          </label>
+          <label>
+            <span>Preferred date</span>
+            <input type="date" name="date" required />
+          </label>
+          <label>
+            <span>Preferred time</span>
+            <input type="time" name="time" required />
+          </label>
+          <label>
+            <span>Timezone</span>
+            <input type="text" name="tz" placeholder="e.g. UTC, PT, CET" />
+          </label>
+          <label class="full">
+            <span>Notes</span>
+            <textarea name="notes" rows="3" placeholder="Anything you’d like us to know"></textarea>
+          </label>
+        </div>
+
+        <footer class="modal-actions">
+          <button class="btn ghost" type="button" data-close>Cancel</button>
+          <button class="btn primary" type="submit">Send request</button>
+        </footer>
+      </form>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
