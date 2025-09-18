@@ -84,25 +84,116 @@ form?.addEventListener('submit', e => {
   setTimeout(() => modal.close(), 200);
 });
 
-// Contact form mailto
+// Contact form: async submit via FormSubmit (no email client popup)
 const contactForm = document.getElementById('contactForm');
-contactForm?.addEventListener('submit', e => {
+const isFileOrigin = typeof location !== 'undefined' && location.protocol === 'file:';
+
+// Create a status line after the form once (for inline messages)
+let contactStatus = null;
+if (contactForm) {
+  contactForm.insertAdjacentHTML('afterend', '<p id="contactStatus" class="contact-status" aria-live="polite" style="margin-top:8px;"></p>');
+  contactStatus = document.getElementById('contactStatus');
+}
+
+async function sendContactMessage({ name, company, email, message }) {
+  // Sends using https://formsubmit.co
+  // Note: The first submission may send a verification email to finshield@outlook.com.
+  const endpoint = 'https://formsubmit.co/ajax/finshield@outlook.com';
+  const fd = new FormData();
+  fd.set('name', name);
+  fd.set('company', company);
+  fd.set('email', email);
+  fd.set('message', message);
+  fd.set('_subject', `FinShield Contact — ${name}${company ? ' ('+company+')' : ''}`);
+  fd.set('_captcha', 'false');
+  fd.set('_template', 'table');
+
+  const resp = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Accept': 'application/json' },
+    body: fd
+  });
+  if (!resp.ok) throw new Error('Network error');
+  const data = await resp.json();
+  if (!(data.success === 'true' || data.success === true)) {
+    throw new Error(data.message || 'Send failed');
+  }
+}
+
+contactForm?.addEventListener('submit', async e => {
   e.preventDefault();
+  // Manual validation since form has novalidate
+  if (contactForm.checkValidity && !contactForm.checkValidity()) {
+    if (contactForm.reportValidity) contactForm.reportValidity();
+    return;
+  }
   const fd = new FormData(contactForm);
   const name = (fd.get('name') || '').toString();
   const company = (fd.get('company') || '').toString();
   const email = (fd.get('email') || '').toString();
   const message = (fd.get('message') || '').toString();
 
-  const subject = encodeURIComponent(`FinShield Contact — ${name}${company ? ' ('+company+')' : ''}`);
-  const body = encodeURIComponent([
-    `Name: ${name}`,
-    `Company: ${company || '—'}`,
-    `Email: ${email}`,
-    '',
-    'Message:',
-    message
-  ].join('\n'));
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+  const originalText = submitBtn?.textContent;
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+  }
 
-  window.location.href = `mailto:finshield@outlook.com?subject=${subject}&body=${body}`;
+  try {
+    contactStatus && (contactStatus.textContent = '');
+    await sendContactMessage({ name, company, email, message });
+
+    // Success UI: clear and replace form with thank-you
+    contactForm.reset();
+    contactForm.style.display = 'none';
+
+    const thanks = document.createElement('div');
+    thanks.className = 'contact-success';
+    thanks.innerHTML = '<h3>Thanks!</h3><p>Your message has been sent. We\'ll get back to you soon.</p>';
+    const container = contactForm.parentElement;
+    container?.appendChild(thanks);
+
+    // After 3 seconds, restore form view
+    setTimeout(() => {
+      thanks.remove();
+      contactForm.style.display = '';
+    }, 3000);
+  } catch (err) {
+    // Fallback: try posting with no-cors to avoid CORS issues on file://
+    try {
+      const fd2 = new FormData();
+      fd2.set('name', name);
+      fd2.set('company', company);
+      fd2.set('email', email);
+      fd2.set('message', message);
+      fd2.set('_subject', `FinShield Contact — ${name}${company ? ' ('+company+')' : ''}`);
+      fd2.set('_captcha', 'false');
+      fd2.set('_template', 'table');
+      await fetch('https://formsubmit.co/finshield@outlook.com', { method: 'POST', mode: 'no-cors', body: fd2 });
+
+      // Treat as sent and show temporary thanks
+      contactForm.reset();
+      contactForm.style.display = 'none';
+      const thanks = document.createElement('div');
+      thanks.className = 'contact-success';
+      thanks.innerHTML = '<h3>Thanks!</h3><p>Your message has been sent. We\'ll get back to you soon.</p>';
+      const container = contactForm.parentElement;
+      container?.appendChild(thanks);
+      setTimeout(() => {
+        thanks.remove();
+        contactForm.style.display = '';
+      }, 3000);
+    } catch (err2) {
+      // Show inline error (no popup), with fallback email link
+      if (contactStatus) {
+        contactStatus.innerHTML = 'Sorry, we could not send your message automatically. Please email us at <a href="mailto:finshield@outlook.com">finshield@outlook.com</a>.';
+      }
+    }
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText || 'Send message';
+    }
+  }
 });

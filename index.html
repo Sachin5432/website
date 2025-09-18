@@ -99,7 +99,11 @@
             <h2>Contact</h2>
             <p class="section-subtitle">Have a question? Send us a note.</p>
           </header>
-          <form id="contactForm" class="contact-form" novalidate>
+          <form id="contactForm" class="contact-form" novalidate action="https://formsubmit.co/finshield@outlook.com" method="POST">
+            <!-- Fallback hidden fields for no-JS submit (no popup) -->
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_subject" value="FinShield Contact" />
             <div class="form-grid">
               <label>
                 <span>Name</span>
@@ -135,7 +139,7 @@
           <div class="bar-right">
             <span>Contact us</span>
             <div class="bar-actions">
-              <a class="btn ghost" href="https://www.linkedin.com/in/sachin-purewal-3672052a2/" target="_blank" rel="noopener">Founder</a>
+              <a class="btn ghost" href="https://www.linkedin.com/in/sachin-purewal-3672052a2/" target="_blank" rel="noopener" onclick="window.open('https://www.linkedin.com/in/rabia-durrani-655141181/','_blank','noopener');">Founder</a>
               <a class="btn primary" href="https://www.linkedin.com/company/finshieldai/?viewAsMember=true" target="_blank" rel="noopener">LinkedIn</a>
             </div>
           </div>
