@@ -133,3 +133,19 @@ a{color:var(--brand-blue)}
 
 /* Smooth scroll for in-page anchors */
 html{scroll-behavior:smooth}
+
+/* Demo modal: calendar scheduler */
+.demo-step{margin-top:8px}
+.cal{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cal-title{font-weight:700}
+.cal-nav{appearance:none;border:1px solid #d1d8e0;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:6px;color:var(--muted);font-size:12px;text-align:center}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-day{display:flex;align-items:center;justify-content:center;height:42px;border:1px solid #e1e6ed;border-radius:10px;background:#fff;cursor:pointer;user-select:none}
+.cal-day:hover{box-shadow:0 4px 14px rgba(11,42,74,0.07)}
+.cal-day.is-disabled{opacity:.4;cursor:not-allowed;background:#f5f7fb}
+.cal-day.is-today{border-color:var(--brand-blue)}
+.cal-day.is-selected{background:var(--brand-blue);color:#fff;border-color:var(--brand-blue)}
+.cal-hint{color:var(--muted);margin:10px 2px 0}
+.selected-date{background:#fff;border:1px solid #e1e6ed;border-radius:10px;padding:10px 12px;margin-bottom:10px}

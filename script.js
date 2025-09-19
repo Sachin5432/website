@@ -17,7 +17,10 @@ const modal = document.getElementById('demoModal');
 const openers = document.querySelectorAll('[data-open-demo]');
 const closers = document.querySelectorAll('[data-close]');
 
-openers.forEach(btn => btn.addEventListener('click', () => modal.showModal()));
+openers.forEach(btn => btn.addEventListener('click', () => {
+  modal.showModal();
+  resetDemoFlow();
+}));
 closers.forEach(btn => btn.addEventListener('click', () => modal.close()));
 
 // Helpers
@@ -33,55 +36,185 @@ function fmtISO(dt){
          `T${pad(dt.getUTCHours())}:${pad(dt.getUTCMinutes())}:${pad(dt.getUTCSeconds())}Z`;
 }
 
-// Mailto composition on submit (+ calendar links)
-const form = document.getElementById('demoForm');
-form?.addEventListener('submit', e => {
-  e.preventDefault();
-  const data = new FormData(form);
-  const name = (data.get('name') || '').toString();
-  const email = (data.get('email') || '').toString();
-  const org = (data.get('org') || '').toString();
-  const date = (data.get('date') || '').toString();
-  const time = (data.get('time') || '').toString();
-  const tz = (data.get('tz') || '').toString();
-  const notes = (data.get('notes') || '').toString();
+// Demo scheduler + submit (no email popup)
+const demoForm = document.getElementById('demoForm');
+const demoSubmitBtn = document.getElementById('demoSubmitBtn');
+const stepSchedule = document.getElementById('demoStepSchedule');
+const stepInfo = document.getElementById('demoStepInfo');
+const stepThanks = document.getElementById('demoThanks');
+const selectedDateInput = document.getElementById('demoSelectedDate');
+const selectedDateSummary = document.getElementById('selectedDateSummary');
+const calTitle = document.getElementById('calTitle');
+const calGrid = document.getElementById('calGrid');
+const calPrev = document.getElementById('calPrev');
+const calNext = document.getElementById('calNext');
 
-  // Build calendar links (1 hour slot)
-  let gcalLink = '', outlookLink = '';
-  if (date && time) {
-    const startLocal = new Date(`${date}T${time}`); // interpreted as local time
-    const endLocal = new Date(startLocal.getTime() + 60*60*1000);
-    const title = 'FinShield Demo';
-    const details = `Requested by ${name} (${email})%0AOrg: ${encodeURIComponent(org || '-')}`;
+let calMonth = new Date(); // tracks the visible month
+let chosenDate = null; // Date object for selected day
 
-    const gStart = fmtICS(startLocal);
-    const gEnd = fmtICS(endLocal);
-    gcalLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${gStart}%2F${gEnd}&details=${details}`;
+function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
+function endOfMonth(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }
+function ymd(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+function monthTitle(d){ return d.toLocaleString(undefined, { month: 'long', year: 'numeric' }); }
 
-    const oStart = fmtISO(startLocal);
-    const oEnd = fmtISO(endLocal);
-    outlookLink = `https://outlook.office.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent&subject=${encodeURIComponent(title)}&startdt=${encodeURIComponent(oStart)}&enddt=${encodeURIComponent(oEnd)}&body=${details}`;
+function renderCalendar(){
+  const first = startOfMonth(calMonth);
+  const last = endOfMonth(calMonth);
+  const today = new Date(); today.setHours(0,0,0,0);
+  calTitle.textContent = monthTitle(calMonth);
+  calGrid.innerHTML = '';
+  const startDow = first.getDay();
+  // blanks
+  for (let i=0; i<startDow; i++) {
+    const div = document.createElement('div');
+    div.className = 'cal-day is-disabled';
+    div.setAttribute('aria-disabled','true');
+    calGrid.appendChild(div);
   }
+  // days
+  for (let day=1; day<=last.getDate(); day++){
+    const d = new Date(calMonth.getFullYear(), calMonth.getMonth(), day);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cal-day';
+    btn.textContent = String(day);
+    btn.setAttribute('aria-label', d.toDateString());
+    const isPast = d < today;
+    if (isPast) {
+      btn.classList.add('is-disabled');
+      btn.disabled = true;
+    }
+    if (chosenDate && ymd(d) === ymd(chosenDate)) {
+      btn.classList.add('is-selected');
+    }
+    if (ymd(d) === ymd(today)) {
+      btn.classList.add('is-today');
+    }
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+      chosenDate = d;
+      selectedDateInput.value = ymd(chosenDate);
+      // show info step immediately
+      setDemoStep('info');
+      renderCalendar(); // re-render to reflect selection
+    });
+    calGrid.appendChild(btn);
+  }
+}
 
-  const subject = encodeURIComponent(`FinShield Demo Request — ${name} (${org || 'No org'})`);
-  const body = encodeURIComponent(
-    [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Organization: ${org || '—'}`,
-      `Preferred slot: ${date || '—'} ${time || ''} ${tz || ''}`.trim(),
-      '',
-      'Notes:',
-      notes || '—',
-      '',
-      'Add to calendar:',
-      gcalLink ? `Google: ${gcalLink}` : 'Google: (link will be created once date/time are set)',
-      outlookLink ? `Outlook: ${outlookLink}` : 'Outlook: (link will be created once date/time are set)'
-    ].join('\n')
-  );
+function setDemoStep(which){
+  if (which === 'schedule') {
+    stepSchedule.style.display = '';
+    stepInfo.style.display = 'none';
+    stepThanks.style.display = 'none';
+    demoSubmitBtn.disabled = true;
+  } else if (which === 'info') {
+    stepSchedule.style.display = 'none';
+    stepInfo.style.display = '';
+    stepThanks.style.display = 'none';
+    demoSubmitBtn.disabled = false;
+    if (chosenDate) {
+      selectedDateSummary.textContent = `Selected date: ${chosenDate.toLocaleDateString()}`;
+    } else {
+      selectedDateSummary.textContent = '';
+    }
+    // focus first field
+    const firstInput = stepInfo.querySelector('input[name="name"]');
+    firstInput && firstInput.focus();
+  } else if (which === 'thanks') {
+    stepSchedule.style.display = 'none';
+    stepInfo.style.display = 'none';
+    stepThanks.style.display = '';
+    demoSubmitBtn.disabled = true;
+  }
+}
 
-  window.location.href = `mailto:finshield@outlook.com?subject=${subject}&body=${body}`;
-  setTimeout(() => modal.close(), 200);
+function resetDemoFlow(){
+  chosenDate = null;
+  selectedDateInput.value = '';
+  selectedDateSummary.textContent = '';
+  demoForm.reset();
+  calMonth = new Date();
+  renderCalendar();
+  setDemoStep('schedule');
+}
+
+calPrev?.addEventListener('click', () => { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth()-1, 1); renderCalendar(); });
+calNext?.addEventListener('click', () => { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth()+1, 1); renderCalendar(); });
+
+async function sendDemoRequest(payload){
+  const endpoint = 'https://formsubmit.co/ajax/finshield@outlook.com';
+  const fd = new FormData();
+  fd.set('name', payload.name);
+  fd.set('email', payload.email);
+  fd.set('org', payload.org);
+  fd.set('date', payload.date);
+  fd.set('time', payload.time);
+  fd.set('tz', payload.tz);
+  fd.set('notes', payload.notes);
+  fd.set('_subject', `FinShield Demo Request — ${payload.name}${payload.org ? ' ('+payload.org+')' : ''}`);
+  fd.set('_captcha', 'false');
+  fd.set('_template', 'table');
+
+  const resp = await fetch(endpoint, { method: 'POST', headers: { 'Accept': 'application/json' }, body: fd });
+  if (!resp.ok) throw new Error('Network error');
+  const data = await resp.json();
+  if (!(data.success === 'true' || data.success === true)) throw new Error(data.message || 'Send failed');
+}
+
+demoForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  // ensure we are on info step and valid
+  if (!selectedDateInput.value) {
+    setDemoStep('schedule');
+    return;
+  }
+  if (demoForm.checkValidity && !demoForm.checkValidity()) {
+    demoForm.reportValidity && demoForm.reportValidity();
+    return;
+  }
+  const data = new FormData(demoForm);
+  const name = (data.get('name')||'').toString();
+  const email = (data.get('email')||'').toString();
+  const org = (data.get('org')||'').toString();
+  const date = (data.get('date')||'').toString();
+  const time = (data.get('time')||'').toString();
+  const tz = (data.get('tz')||'').toString();
+  const notes = (data.get('notes')||'').toString();
+
+  const submitBtn = demoSubmitBtn;
+  const originalText = submitBtn?.textContent;
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+
+  try {
+    await sendDemoRequest({ name, email, org, date, time, tz, notes });
+    // show thanks, then reset to schedule after 3s
+    setDemoStep('thanks');
+    setTimeout(() => { resetDemoFlow(); }, 3000);
+  } catch (err) {
+    // Fallback: no-cors post so it works from file:// and still show thanks
+    try {
+      const fd = new FormData();
+      fd.set('name', name);
+      fd.set('email', email);
+      fd.set('org', org);
+      fd.set('date', date);
+      fd.set('time', time);
+      fd.set('tz', tz);
+      fd.set('notes', notes);
+      fd.set('_subject', `FinShield Demo Request — ${name}${org ? ' ('+org+')' : ''}`);
+      fd.set('_captcha', 'false');
+      fd.set('_template', 'table');
+      await fetch('https://formsubmit.co/finshield@outlook.com', { method:'POST', mode:'no-cors', body: fd });
+      setDemoStep('thanks');
+      setTimeout(() => { resetDemoFlow(); }, 3000);
+    } catch (err2) {
+      // If even that fails, keep the modal open and show a small inline message
+      alert('Sorry, we could not send your request automatically. Please email us at finshield@outlook.com.');
+    }
+  } finally {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = originalText || 'Send request'; }
+  }
 });
 
 // Contact form: async submit via FormSubmit (no email client popup)

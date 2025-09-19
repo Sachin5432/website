@@ -149,46 +149,74 @@
 
     <!-- Demo Modal -->
     <dialog id="demoModal" class="modal">
-      <form method="dialog" class="modal-inner" id="demoForm">
+      <form class="modal-inner" id="demoForm" action="https://formsubmit.co/finshield@outlook.com" method="POST" novalidate>
         <header class="modal-header">
           <h3>Book a demo</h3>
           <button class="icon-btn" type="button" data-close>&times;</button>
         </header>
 
-        <div class="form-grid">
-          <label>
-            <span>Name</span>
-            <input type="text" name="name" placeholder="Your name" required />
-          </label>
-          <label>
-            <span>Email</span>
-            <input type="email" name="email" placeholder="you@example.com" required />
-          </label>
-          <label>
-            <span>Organization</span>
-            <input type="text" name="org" placeholder="Company / Org" />
-          </label>
-          <label>
-            <span>Preferred date</span>
-            <input type="date" name="date" required />
-          </label>
-          <label>
-            <span>Preferred time</span>
-            <input type="time" name="time" required />
-          </label>
-          <label>
-            <span>Timezone</span>
-            <input type="text" name="tz" placeholder="e.g. UTC, PT, CET" />
-          </label>
-          <label class="full">
-            <span>Notes</span>
-            <textarea name="notes" rows="3" placeholder="Anything you’d like us to know"></textarea>
-          </label>
-        </div>
+        <!-- Hidden fields for FormSubmit fallback -->
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_subject" value="FinShield Demo Request" />
+
+        <!-- Step 1: Schedule (interactive calendar) -->
+        <section id="demoStepSchedule" class="demo-step">
+          <div class="cal" aria-label="Choose a date">
+            <div class="cal-header">
+              <button class="cal-nav" type="button" id="calPrev" aria-label="Previous month">&#x2039;</button>
+              <div class="cal-title" id="calTitle">Month YYYY</div>
+              <button class="cal-nav" type="button" id="calNext" aria-label="Next month">&#x203A;</button>
+            </div>
+            <div class="cal-weekdays">
+              <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+            </div>
+            <div class="cal-grid" id="calGrid" role="grid"></div>
+          </div>
+          <p class="cal-hint">Select a date to continue.</p>
+        </section>
+
+        <!-- Step 2: Info inputs (shown after a day is selected) -->
+        <section id="demoStepInfo" class="demo-step" style="display:none;">
+          <input type="hidden" name="date" id="demoSelectedDate" />
+          <div class="selected-date" id="selectedDateSummary"></div>
+          <div class="form-grid">
+            <label>
+              <span>Name</span>
+              <input type="text" name="name" placeholder="Your name" required />
+            </label>
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="you@example.com" required />
+            </label>
+            <label>
+              <span>Organization</span>
+              <input type="text" name="org" placeholder="Company / Org" />
+            </label>
+            <label>
+              <span>Preferred time</span>
+              <input type="time" name="time" required />
+            </label>
+            <label>
+              <span>Timezone</span>
+              <input type="text" name="tz" placeholder="e.g. UTC, PT, CET" />
+            </label>
+            <label class="full">
+              <span>Notes</span>
+              <textarea name="notes" rows="3" placeholder="Anything you’d like us to know"></textarea>
+            </label>
+          </div>
+        </section>
+
+        <!-- Step 3: Thanks (shown after submit) -->
+        <section id="demoThanks" class="contact-success" style="display:none;">
+          <h3>Thanks!</h3>
+          <p>Your demo request has been sent. We’ll get back to you soon.</p>
+        </section>
 
         <footer class="modal-actions">
           <button class="btn ghost" type="button" data-close>Cancel</button>
-          <button class="btn primary" type="submit">Send request</button>
+          <button id="demoSubmitBtn" class="btn primary" type="submit" disabled>Send request</button>
         </footer>
       </form>
     </dialog>
