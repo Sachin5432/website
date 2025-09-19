@@ -44,6 +44,7 @@ const stepInfo = document.getElementById('demoStepInfo');
 const stepThanks = document.getElementById('demoThanks');
 const selectedDateInput = document.getElementById('demoSelectedDate');
 const selectedDateSummary = document.getElementById('selectedDateSummary');
+const demoBackBtn = document.getElementById('demoBackBtn');
 const calTitle = document.getElementById('calTitle');
 const calGrid = document.getElementById('calGrid');
 const calPrev = document.getElementById('calPrev');
@@ -108,16 +109,21 @@ function setDemoStep(which){
     stepInfo.style.display = 'none';
     stepThanks.style.display = 'none';
     demoSubmitBtn.disabled = true;
+    if (demoBackBtn) demoBackBtn.style.display = 'none';
   } else if (which === 'info') {
     stepSchedule.style.display = 'none';
     stepInfo.style.display = '';
     stepThanks.style.display = 'none';
     demoSubmitBtn.disabled = false;
     if (chosenDate) {
-      selectedDateSummary.textContent = `Selected date: ${chosenDate.toLocaleDateString()}`;
+      selectedDateSummary.innerHTML = `<strong>Selected date:</strong> ${chosenDate.toLocaleDateString()} <button type="button" class="change-link" id="changeDemoDateBtn">Change</button>`;
+      // Bind change handler to go back to calendar
+      const changeBtn = document.getElementById('changeDemoDateBtn');
+      changeBtn && changeBtn.addEventListener('click', () => setDemoStep('schedule'));
     } else {
       selectedDateSummary.textContent = '';
     }
+    if (demoBackBtn) demoBackBtn.style.display = '';
     // focus first field
     const firstInput = stepInfo.querySelector('input[name="name"]');
     firstInput && firstInput.focus();
@@ -126,6 +132,7 @@ function setDemoStep(which){
     stepInfo.style.display = 'none';
     stepThanks.style.display = '';
     demoSubmitBtn.disabled = true;
+    if (demoBackBtn) demoBackBtn.style.display = 'none';
   }
 }
 
@@ -141,6 +148,8 @@ function resetDemoFlow(){
 
 calPrev?.addEventListener('click', () => { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth()-1, 1); renderCalendar(); });
 calNext?.addEventListener('click', () => { calMonth = new Date(calMonth.getFullYear(), calMonth.getMonth()+1, 1); renderCalendar(); });
+
+demoBackBtn?.addEventListener('click', () => setDemoStep('schedule'));
 
 async function sendDemoRequest(payload){
   const endpoint = 'https://formsubmit.co/ajax/finshield@outlook.com';

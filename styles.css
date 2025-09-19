@@ -149,3 +149,5 @@ html{scroll-behavior:smooth}
 .cal-day.is-selected{background:var(--brand-blue);color:#fff;border-color:var(--brand-blue)}
 .cal-hint{color:var(--muted);margin:10px 2px 0}
 .selected-date{background:#fff;border:1px solid #e1e6ed;border-radius:10px;padding:10px 12px;margin-bottom:10px}
+.selected-date .change-link{margin-left:8px;color:var(--brand-blue);background:transparent;border:none;padding:0;cursor:pointer;font-weight:600}
+.selected-date .change-link:hover{text-decoration:underline}
