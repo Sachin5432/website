@@ -23,8 +23,8 @@
   --ink:#0b0d12;
   --bg:#eff3f6; /* dimmed off‑white to reduce brightness */
   --muted:#5b6677;
-  /* Inform the UA we support both themes for built-ins (inputs, form controls, scrollbars) */
-  color-scheme: light dark;
+  /* Inform the UA we only support the light theme for built-ins */
+  color-scheme: light;
   /* Surfaces */
   --panel:#0e243a12; /* 7% brand tint for panels */
   --line:rgba(11,13,18,0.16); /* subtle black line */
@@ -36,34 +36,6 @@
   --shadow-sm:0 4px 12px rgba(11,42,74,0.06);
   --shadow:0 8px 24px rgba(11,42,74,0.08);
   --shadow-lg:0 16px 48px rgba(11,42,74,0.10);
-}
-
-/* Auto dark mode using system preference */
-@media (prefers-color-scheme: dark){
-  :root{
-    --ink:#e7ecf3;
-    --bg:#0b1118;
-    --muted:#9badc3;
-    --panel:#0e243a22; /* translucent brand tint */
-    --line:rgba(231,236,243,0.12);
-    --ring:#5aa0ff44;
-    --sea-teal:#22d0ea; /* brighten in dark */
-    --sea-green:#32ddb4;
-    --sage:#5f6d4a; /* darker sage for dark mode */
-    --sage-border:#708060;
-    --sage-ink:#ecf3e4;
-    --carbon:#06080c;
-    --carbon-2:#0c1219;
-    --olive:#5b7435;
-    --olive-2:#2a3717;
-    --olive-bright:#97c15a;
-    --cream:#b8ae8f;
-    --cream-deep:#a79a72;
-    --cream-border:#968a66;
-    --shadow-sm:0 4px 12px rgba(0,0,0,0.25);
-    --shadow:0 8px 24px rgba(0,0,0,0.35);
-    --shadow-lg:0 16px 48px rgba(0,0,0,0.45);
-  }
 }
 
 *{box-sizing:border-box}
@@ -162,11 +134,6 @@ body::before{
 @keyframes btn-sweep{from{transform:translateX(-120%)} to{transform:translateX(120%)}}
 .btn.ghost{background:transparent;color:var(--ink);border-color:#d1d8e0}
 .btn.ghost:hover{background:#0e243a12}
-
-@media (prefers-color-scheme: dark){
-  .btn{background:color-mix(in oklab, var(--bg) 86%, transparent);border-color:var(--line);color:var(--ink)}
-  .btn.ghost:hover{background:#ffffff12}
-}
 
 /* Sections */
 .section{padding:clamp(56px, 7vw, 96px) 0}
