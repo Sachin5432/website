@@ -28,7 +28,14 @@
         </a>
         <nav class="menu" aria-label="Primary">
           <a href="#news">News</a>
+          <a class="btn ghost" href="#contact">Contact us</a>
           <button class="btn primary" data-open-demo>Book demo</button>
+          <a class="btn ghost" href="https://www.linkedin.com/company/finshieldai/?viewAsMember=true" target="_blank" rel="noopener" aria-label="FinShield on LinkedIn" title="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" style="margin-right:6px">
+              <path d="M20.447 20.452H17.21v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.447-2.136 2.943v5.663H9.001V9h3.111v1.561h.044c.434-.82 1.494-1.685 3.073-1.685 3.288 0 3.893 2.164 3.893 4.982v6.594zM5.337 7.433a1.807 1.807 0 1 1 0-3.615 1.807 1.807 0 0 1 0 3.615zM6.96 20.452H3.708V9H6.96v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.226.792 24 1.771 24h20.451C23.2 24 24 23.226 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            <span>LinkedIn</span>
+          </a>
         </nav>
       </div>
     </header>
@@ -52,7 +59,27 @@
           <div id="sponsors" class="backed-by">
             <div class="backed-title">Backed up by</div>
             <div class="sponsor-logos">
-              <img src="assets/Sponsor.transparent.png" alt="Ocean Startup Project" />
+              <div class="sponsor-card">
+                <img src="assets/Sponsor.transparent.png" alt="Ocean Startup Project" />
+              </div>
+              <div class="sponsor-card">
+                <img src="assets/supercluser.png" alt="Ocean Supercluster" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Ocean Image Banner with Overlay Text -->
+      <section id="ocean" class="ocean-banner">
+        <div class="ocean-inner">
+          <div class="ocean-text">
+            <p class="eyebrow">Protecting our oceans</p>
+            <h2>AI that works where it matters — at sea</h2>
+            <p class="section-subtitle">On‑deck vision + accelerated AIS to deter shark finning and IUU fishing in real time.</p>
+            <div class="cta-row">
+              <button class="btn primary" data-open-demo>Book Demo</button>
+              <a class="btn ghost" href="#technology">How it works</a>
             </div>
           </div>
         </div>
@@ -66,6 +93,14 @@
             <h2>Two equal pillars, one mission</h2>
             <p class="section-subtitle">Real‑time deck monitoring pairs with AIS analytics for complete coverage.</p>
           </header>
+
+          <!-- Quick value highlights as startup-style pills -->
+          <ul class="pills center" aria-label="Highlights">
+            <li class="pill">Edge processing</li>
+            <li class="pill">Low bandwidth</li>
+            <li class="pill">Privacy‑first</li>
+            <li class="pill">API & Console</li>
+          </ul>
 
           <div class="features">
             <article class="feature">
@@ -96,9 +131,111 @@
       <!-- AIS Showcase -->
       <section id="ais" class="section showcase">
         <div class="container">
-          <img src="assets/ais%20image.png" alt="AIS analytics visualization" class="showcase-img" />
+          <img src="assets/fishing.jpg" alt="Fishing at sea — FinShield context image" class="showcase-img" />
         </div>
       </section>
+
+      <!-- Why FinShield -->
+      <section id="why" class="section highlights">
+        <div class="container">
+          <header class="section-header center">
+            <p class="eyebrow">Why FinShield</p>
+            <h2>Purpose‑built for modern monitoring at sea</h2>
+            <p class="section-subtitle">Reliable in harsh environments, respectful of privacy, and easy to adopt.</p>
+          </header>
+          <div class="highlights-grid">
+            <article class="highlight-card">
+              <h3>Reliable at sea</h3>
+              <p>Designed for low‑bandwidth, high‑motion conditions with edge processing and resilient alerts.</p>
+            </article>
+            <article class="highlight-card">
+              <h3>Privacy‑first</h3>
+              <p>Analysis happens locally. Only structured events and optional clips are shared when needed.</p>
+            </article>
+            <article class="highlight-card">
+              <h3>Simple integration</h3>
+              <p>Use your existing cameras and connect insights to your current ops tools or API.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Product Gallery / Screenshots -->
+      <section id="gallery" class="section gallery">
+        <div class="container">
+          <header class="section-header center">
+            <p class="eyebrow">Product</p>
+            <h2>What we’re building</h2>
+            <p class="section-subtitle">A quick look at FinShield in action and our console views.</p>
+          </header>
+          <div class="gallery-grid">
+            <figure class="shot">
+              <img src="assets/Screenshot%202025-09-20%20at%205.41.39%E2%80%AFPM.png" alt="Deck detection alert screenshot" />
+              <figcaption>On‑deck detection: risk event and clip for rapid review.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="assets/Screenshot%202025-09-20%20at%205.42.38%E2%80%AFPM.png" alt="AIS analytics view screenshot" />
+              <figcaption>Accelerated AIS intelligence with risk scoring and trends.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src="assets/Screenshot%202025-09-20%20at%205.43.20%E2%80%AFPM.png" alt="Console settings screenshot" />
+              <figcaption>Simple console and API options for integration.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- News / Highlights (magazine style) -->
+      <section id="news" class="section news">
+        <div class="container">
+          <header class="section-header">
+            <p class="eyebrow">Customer Highlights</p>
+            <h2>Recent coverage and wins</h2>
+            <p class="section-subtitle">Stories from partners and our ocean tech ecosystem.</p>
+          </header>
+
+          <article class="highlight-row reveal is-visible">
+            <figure class="highlight-media">
+              <a href="https://www.oceanstartupproject.ca/news/fifth-ocean-startup-challenge-cohort" target="_blank" rel="noopener">
+                <img src="assets/oceanstar.webp" alt="Ocean scene with wake" />
+              </a>
+            </figure>
+            <div class="highlight-content">
+              <h3><a href="https://www.oceanstartupproject.ca/news/fifth-ocean-startup-challenge-cohort" target="_blank" rel="noopener">Fifth Ocean Startup Challenge Cohort</a></h3>
+              <div class="highlight-meta" data-date="2025-07-28">
+                <span class="source">oceanstartupproject.ca</span>
+                <span class="sep">|</span>
+                <time class="date" datetime="2025-07-28">Jul 28, 2025</time>
+              </div>
+              <p>New cohort announced by Ocean Startup Project spotlighting ocean innovation across Canada.</p>
+              <p><a class="btn ghost" href="https://www.oceanstartupproject.ca/news/fifth-ocean-startup-challenge-cohort" target="_blank" rel="noopener">Read more</a></p>
+            </div>
+          </article>
+
+          <article class="highlight-row reveal is-visible">
+            <figure class="highlight-media">
+              <a href="https://www.oceanstartupproject.ca/news/a-surge-of-ocean-innovation-meet-the-26-winners-of-the-2025-idea-challenge" target="_blank" rel="noopener">
+                <img src="assets/ship.jpg" alt="Navy ship at sea" />
+              </a>
+            </figure>
+            <div class="highlight-content">
+              <h3><a href="https://www.oceanstartupproject.ca/news/a-surge-of-ocean-innovation-meet-the-26-winners-of-the-2025-idea-challenge" target="_blank" rel="noopener">Idea Challenge Winners</a></h3>
+              <div class="highlight-meta" data-date="2025-07-28">
+                <span class="source">oceanstartupproject.ca</span>
+                <span class="sep">|</span>
+                <time class="date" datetime="2025-07-28">Jul 28, 2025</time>
+              </div>
+              <p>Highlights from the winners advancing maritime capabilities and ocean sustainability.</p>
+              <p><a class="btn ghost" href="https://www.oceanstartupproject.ca/news/a-surge-of-ocean-innovation-meet-the-26-winners-of-the-2025-idea-challenge" target="_blank" rel="noopener">Read more</a></p>
+            </div>
+          </article>
+
+          <div class="more-soon center reveal is-visible" style="--reveal-delay:120ms">
+            <a class="btn ghost" aria-disabled="true">More coming soon</a>
+          </div>
+        </div>
+      </section>
+
 
       <!-- Demo -->
       <section id="demo" class="section demo">
@@ -115,32 +252,6 @@
               Your browser may not support this video format.
               <a href="assets/out_sharkvid1%20%282%29.mov">Download the clip</a> instead.
             </video>
-          </div>
-        </div>
-      </section>
-
-      
-      <!-- News -->
-      <section id="news" class="section news">
-        <div class="container">
-          <header class="section-header center">
-            <p class="eyebrow">Latest</p>
-            <h2>News & Updates</h2>
-            <p class="section-subtitle">Recent coverage and announcements from our ecosystem.</p>
-          </header>
-          <div class="news-list">
-            <article class="news-card">
-              <h3>Fifth Ocean Startup Challenge cohort</h3>
-              <p class="meta">Ocean Startup Project</p>
-              <p>Announcement of the latest cohort in the Ocean Startup Challenge. Read the full post from Ocean Startup Project.</p>
-              <p><a class="btn ghost" href="https://www.oceanstartupproject.ca/news/fifth-ocean-startup-challenge-cohort" target="_blank" rel="noopener">Read more</a></p>
-            </article>
-            <article class="news-card">
-              <h3>Meet the 26 winners of the 2025 Idea Challenge</h3>
-              <p class="meta">Ocean Startup Project</p>
-              <p>Coverage of the 2025 Idea Challenge winners driving ocean innovation. Explore the full announcement.</p>
-              <p><a class="btn ghost" href="https://www.oceanstartupproject.ca/news/a-surge-of-ocean-innovation-meet-the-26-winners-of-the-2025-idea-challenge" target="_blank" rel="noopener">Read more</a></p>
-            </article>
           </div>
         </div>
       </section>
@@ -194,7 +305,7 @@
           <div class="bar-right">
             <span>Contact us</span>
             <div class="bar-actions">
-              <a class="btn ghost" href="https://www.linkedin.com/in/sachin-purewal-3672052a2/" target="_blank" rel="noopener" onclick="window.open('https://www.linkedin.com/in/rabia-durrani-655141181/','_blank','noopener');">Founder</a>
+              <a class="btn ghost" href="https://www.linkedin.com/in/sachin-purewal-3672052a2/" target="_blank" rel="noopener" onclick="window.open('https://www.linkedin.com/in/rabia-durrani-655141181/','_blank','noopener');">Founders</a>
               <a class="btn primary" href="https://www.linkedin.com/company/finshieldai/?viewAsMember=true" target="_blank" rel="noopener">LinkedIn</a>
             </div>
           </div>

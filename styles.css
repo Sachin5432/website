@@ -2,8 +2,26 @@
   /* Brand + base */
   --brand-blue:#0e243a; /* company blue from logo */
   --brand-accent:#0a66c2; /* subtle accent for gradients */
+  /* Marine accents */
+  --sea-teal:#0bbcd6; /* marine teal */
+  --sea-green:#16c79a; /* seafoam green */
+  /* Sage card tone (inspired by OnDeck) */
+  --sage:#a9b88f; /* muted sage */
+  --sage-border:#8f9e77;
+  --sage-ink:#243015;
+  /* Dark band */
+  --carbon:#0b0f14;
+  --carbon-2:#121821;
+  /* Olive theme accents */
+  --olive:#4a5f2a;       /* deep olive */
+  --olive-2:#31441a;     /* darker olive */
+  --olive-bright:#7da343;/* bright olive accent */
+  /* Cream palette for info boxes */
+  --cream:#d8cfb3;       /* dark cream base */
+  --cream-deep:#cbbf9c;  /* deeper cream for gradient */
+  --cream-border:#b9ac87;/* border tone */
   --ink:#0b0d12;
-  --bg:#f6f8fb; /* soften pure white */
+  --bg:#eff3f6; /* dimmed off‑white to reduce brightness */
   --muted:#5b6677;
   /* Inform the UA we support both themes for built-ins (inputs, form controls, scrollbars) */
   color-scheme: light dark;
@@ -29,6 +47,19 @@
     --panel:#0e243a22; /* translucent brand tint */
     --line:rgba(231,236,243,0.12);
     --ring:#5aa0ff44;
+    --sea-teal:#22d0ea; /* brighten in dark */
+    --sea-green:#32ddb4;
+    --sage:#5f6d4a; /* darker sage for dark mode */
+    --sage-border:#708060;
+    --sage-ink:#ecf3e4;
+    --carbon:#06080c;
+    --carbon-2:#0c1219;
+    --olive:#5b7435;
+    --olive-2:#2a3717;
+    --olive-bright:#97c15a;
+    --cream:#b8ae8f;
+    --cream-deep:#a79a72;
+    --cream-border:#968a66;
     --shadow-sm:0 4px 12px rgba(0,0,0,0.25);
     --shadow:0 8px 24px rgba(0,0,0,0.35);
     --shadow-lg:0 16px 48px rgba(0,0,0,0.45);
@@ -61,32 +92,74 @@ body::before{
   filter:saturate(120%);
 }
 
+/* Ocean image banner with overlay text */
+.ocean-banner{position:relative;padding:0}
+.ocean-banner .ocean-inner{
+  position:relative;isolation:isolate;min-height:clamp(360px, 46vw, 680px);
+  display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;
+  background:url("assets/ocean sea.jpg") center/cover no-repeat;
+}
+.ocean-banner .ocean-inner::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  /* Lighten and increase transparency for a washed, professional look */
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--brand-blue), transparent 70%) 0%, transparent 38%, color-mix(in oklab, var(--bg), transparent 70%) 100%),
+    linear-gradient(135deg, color-mix(in oklab, var(--sea-teal) 20%, transparent), color-mix(in oklab, var(--sea-green) 12%, transparent));
+}
+/* Soft white veil to further fade the image */
+.ocean-banner .ocean-inner::after{
+  content:"";position:absolute;inset:0;z-index:0;background:color-mix(in oklab, #ffffff 36%, transparent);
+}
+.ocean-banner .ocean-text{position:relative;z-index:1;}
+/* Keep CTAs normal inside text block, centered */
+.ocean-banner .ocean-text .cta-row{justify-content:center}
+.ocean-banner .ocean-text{max-width:980px;padding:clamp(18px, 4vw, 28px);color:#fff}
+.ocean-banner .ocean-text h2{margin:6px 0 10px;font-size:clamp(28px, 4.6vw, 44px);line-height:1.15}
+.ocean-banner .ocean-text .section-subtitle{color:#e6f7fb}
+.ocean-banner .btn.ghost{color:#fff;border-color:#ffffffb3}
+.ocean-banner .btn.ghost:hover{background:#ffffff24}
+
 /* Header */
 .site-header{position:sticky;top:0;background:color-mix(in oklab, var(--bg) 86%, transparent);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line);z-index:10}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:6px 12px}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:4px 12px}
 .brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:600}
-.logo{height:64px;width:auto;max-height:none}
-@media (min-width:900px){.logo{height:72px}}
-.logo.small{height:48px}
+.logo{height:100px;width:auto;max-height:none}
+@media (min-width:900px){.logo{height:114px}}
+.logo.small{height:76px}
 /* Explicit logo sizing in header/footer for clarity */
-.site-header .logo{height:64px}
-@media (min-width:900px){.site-header .logo{height:72px}}
-.footer-cta .logo.small{height:48px}
-@media (min-width:900px){.footer-cta .logo.small{height:56px}}
+.site-header .logo{height:84px;transform:scale(1.18);transform-origin:left center}
+@media (min-width:900px){.site-header .logo{height:92px;transform:scale(1.2)}}
+.footer-cta .logo.small{height:76px}
+@media (min-width:900px){.footer-cta .logo.small{height:90px}}
 .menu{display:flex;align-items:center;gap:22px}
 .menu a{color:var(--muted);text-decoration:none;font-weight:500}
 .menu a:hover{color:var(--ink)}
+/* Ensure header action buttons share size/format */
+.menu .btn{padding:10px 14px; height:auto}
 
 /* Buttons */
 .btn{appearance:none;border:1px solid #d1d8e0;background:#fff;color:var(--ink);border-radius:var(--radius);padding:10px 16px;font-weight:600;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-.btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(11,42,74,0.08)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(11,42,74,0.12)}
 .btn:focus-visible{outline:3px solid var(--ring);outline-offset:2px}
-.btn.primary{
-  background:linear-gradient(135deg, color-mix(in oklab, var(--brand-blue), white 6%), color-mix(in oklab, var(--brand-accent), var(--brand-blue) 40%));
-  color:#fff;border-color:color-mix(in oklab, var(--brand-blue), var(--brand-accent) 20%);
-  box-shadow:0 8px 20px rgba(10,102,194,0.18);
+.btn.primary{position:relative;overflow:hidden;
+  background:linear-gradient(135deg,
+    color-mix(in oklab, var(--olive), #000 6%),
+    color-mix(in oklab, var(--olive-2), var(--olive-bright) 18%)
+  );
+  color:#fff;
+  border-color:color-mix(in oklab, var(--olive-2), var(--olive-bright) 22%);
+  box-shadow:0 10px 24px color-mix(in oklab, var(--olive) 32%, black 10%);
 }
-.btn.primary:hover{filter:brightness(1.06)}
+/* Micro gradient sweep highlight */
+.btn.primary::after{content:"";position:absolute;inset:-1px;pointer-events:none;
+  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.18) 12%, rgba(255,255,255,0.26) 16%, transparent 28%);
+  transform:translateX(-120%);
+}
+.btn.primary:hover{filter:brightness(1.05); transform:translateY(-2px) scale(1.01)}
+@media (prefers-reduced-motion: no-preference){
+  .btn.primary:hover::after{animation:btn-sweep 1.35s cubic-bezier(.22,.61,.36,1) forwards}
+}
+@keyframes btn-sweep{from{transform:translateX(-120%)} to{transform:translateX(120%)}}
 .btn.ghost{background:transparent;color:var(--ink);border-color:#d1d8e0}
 .btn.ghost:hover{background:#0e243a12}
 
@@ -96,14 +169,18 @@ body::before{
 }
 
 /* Sections */
-.section{padding:clamp(72px, 8vw, 108px) 0}
+.section{padding:clamp(56px, 7vw, 96px) 0}
 .section-header{margin-bottom:24px}
 .section-header h2{margin:0 0 6px;font-size:32px}
 @media (min-width:900px){.section-header h2{font-size:36px}}
 .section-subtitle{margin:0;color:var(--muted)}
 
 /* Hero */
-.hero{position:relative;background:radial-gradient(1200px 500px at 20% -20%, #0e243a18, transparent 50%), radial-gradient(800px 300px at 90% 0%, #0a66c214, transparent 60%)}
+.hero{position:relative;background:
+  radial-gradient(1200px 500px at 20% -20%, color-mix(in oklab, var(--brand-blue) 12%, transparent), transparent 50%),
+  radial-gradient(900px 340px at 90% 0%, color-mix(in oklab, var(--sea-teal) 14%, transparent), transparent 60%),
+  radial-gradient(700px 260px at 50% -10%, color-mix(in oklab, var(--sea-green) 10%, transparent), transparent 65%)
+}
 .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;text-align:center}
 .hero .container{display:flex;flex-direction:column;align-items:center;text-align:center}
 .hero h1{font-size:clamp(36px, 6vw, 64px);line-height:1.08;margin:0 0 12px;max-width:900px}
@@ -118,10 +195,12 @@ body::before{
 /* Backed by (Our Sponsors) — styled similar to ondeckai.com */
 .backed-by{margin-top:56px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:8px 0;background:transparent;border:none}
 .backed-by .backed-title{font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-size:14px}
-.sponsor-logos{display:flex;align-items:center;justify-content:center;gap:28px;opacity:0.98;background:color-mix(in oklab, var(--panel) 75%, transparent);border:1px solid var(--line);border-radius:12px;padding:12px 16px;width:100%}
-.sponsor-logos img{display:block;height:52px;width:auto;filter:none;opacity:0.95;transition:opacity .15s ease}
-.sponsor-logos img:hover{opacity:1}
-@media (min-width:900px){.sponsor-logos img{height:64px}}
+.sponsor-logos{display:grid;grid-template-columns:1fr;gap:16px;width:100%}
+@media (min-width:700px){.sponsor-logos{grid-template-columns:1fr 1fr}}
+.sponsor-card{display:flex;align-items:center;justify-content:center;gap:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 16px;min-height:96px;box-shadow:var(--shadow-sm)}
+.sponsor-card img{display:block;height:48px;width:auto;filter:none;opacity:0.96;transition:opacity .15s ease}
+.sponsor-card img:hover{opacity:1}
+@media (min-width:900px){.sponsor-card img{height:56px}}
 
 /* Cards / Grid */
 .grid.two{display:grid;grid-template-columns:1fr;gap:18px}
@@ -147,7 +226,7 @@ body::before{
 .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}
 
 /* Smooth anchor offset for sticky header */
-[id]{scroll-margin-top:76px}
+[id]{scroll-margin-top:102px}
 
 /* Utility */
 a{color:var(--brand-blue)}
@@ -160,33 +239,82 @@ a{color:var(--brand-blue)}
 .tech::before{content:"";position:absolute;left:0;right:0;top:-48px;height:48px;background:linear-gradient(180deg, transparent 0%, #0e243a08 100%);} 
 .features{display:grid;grid-template-columns:1fr;gap:16px}
 @media (min-width:900px){.features{grid-template-columns:1fr 1fr}}
-.feature{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 6px 18px rgba(11,42,74,0.06);transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
-.feature:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:color-mix(in oklab, var(--line), var(--brand-blue) 20%)}
+.pills{list-style:none;margin:6px 0 22px;padding:0;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pill{padding:8px 12px;border-radius:999px;font-weight:600;font-size:13px;letter-spacing:.02em;color:var(--ink);
+  background:linear-gradient(180deg, color-mix(in oklab, var(--sea-teal) 18%, #fff), color-mix(in oklab, var(--sea-green) 10%, #fff));
+  border:1px solid color-mix(in oklab, var(--line), var(--sea-teal) 30%);
+  box-shadow:0 6px 18px rgba(11,42,74,0.08);
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease}
+.pill:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(11,42,74,0.12);}
+.pill:active{transform:translateY(0)}
+.feature{
+  position:relative;
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--cream) 88%, #ffffff 12%),
+      color-mix(in oklab, var(--cream-deep) 92%, #ffffff 8%)
+    );
+  border:1px solid var(--cream-border);
+  border-left:4px solid color-mix(in oklab, var(--cream-border), var(--olive) 20%);
+  border-radius:20px;
+  padding:22px;
+  box-shadow:none;
+  transition:border-color .18s ease
+}
+/* subtle grain */
+.feature::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.06;
+  background:
+    radial-gradient(1px 1px at 15% 20%, #000 30%, transparent 31%),
+    radial-gradient(1px 1px at 35% 80%, #000 30%, transparent 31%),
+    radial-gradient(1px 1px at 75% 30%, #000 30%, transparent 31%),
+    radial-gradient(1px 1px at 55% 60%, #000 30%, transparent 31%);
+}
+.feature:hover{border-color:color-mix(in oklab, var(--cream-border) 86%, var(--line) 14%)}
 .feature-head h3{margin:0 0 6px}
 .feature-head p{margin:0 0 12px;color:var(--muted)}
 .feature-text p{margin:10px 0}
 
 /* News section */
-.news{position:relative;background:linear-gradient(180deg, var(--bg) 0%, #0e243a08 100%)}
-.news-list{display:grid;grid-template-columns:1fr;gap:16px}
-@media (min-width:900px){.news-list{grid-template-columns:1fr 1fr}}
-.news-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow-sm)}
-.news-card h3{margin:0 0 6px}
-.news-card .meta{margin:0 0 8px;color:var(--muted);font-size:14px;font-weight:600;letter-spacing:.02em;text-transform:uppercase}
+.news{position:relative;background:linear-gradient(180deg, var(--bg) 0%, color-mix(in oklab, var(--olive) 10%, transparent) 100%)}
+/* Magazine style highlight rows */
+.highlight-row{display:grid;grid-template-columns:1fr;gap:18px;align-items:center;margin:18px 0;padding:12px 0;border-top:1px solid color-mix(in oklab, var(--line), #ccc 20%)}
+@media (min-width:900px){.highlight-row{grid-template-columns:minmax(280px, 540px) 1fr;gap:24px}}
+.highlight-media img{display:block;width:100%;height:auto;border-radius:20px;object-fit:cover;aspect-ratio:4/5;background:#e8ecef}
+@media (min-width:900px){.highlight-media img{aspect-ratio:4/3}}
+.highlight-content h3{margin:0 0 6px;font-size:clamp(22px, 3.4vw, 40px);line-height:1.15}
+.highlight-content h3 a{color:inherit;text-decoration:none}
+.highlight-content h3 a:hover{text-decoration:underline}
+.highlight-meta{display:flex;align-items:center;gap:10px;margin:6px 0 10px;color:var(--muted);font-weight:600;letter-spacing:.02em;text-transform:uppercase;font-size:13px}
+.highlight-content p{margin:6px 0 10px}
+.more-soon .btn[aria-disabled="true"]{cursor:default;opacity:.9}
 
 /* Demo video */
 .demo{position:relative;background:linear-gradient(180deg, var(--bg) 0%, #0e243a08 100%)}
-.video-shell{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.video-shell{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
 .demo-video{display:block;width:100%;height:auto;max-height:70vh;background:color-mix(in oklab, var(--bg) 80%, transparent)}
 
-/* AIS showcase image */
-.showcase{position:relative;background:linear-gradient(180deg, var(--bg) 0%, #0e243a08 100%)}
-.showcase-img{display:block;width:60%;max-width:720px;margin:0 auto;height:auto;border-radius:16px;border:1px solid var(--line);box-shadow:var(--shadow-sm);background:color-mix(in oklab, var(--bg) 85%, transparent)}
-@media (max-width: 720px){.showcase-img{width:100%}}
+/* AIS showcase image — full-bleed, taller, seamless */
+.showcase{position:relative;background:transparent;padding:0}
+.showcase .container{max-width:none;padding:0}
+.showcase-img{display:block;width:100%;height:clamp(360px, 42vw, 640px);object-fit:cover;border:none;border-radius:0;box-shadow:none}
+.showcase::before{content:"";position:absolute;left:0;right:0;top:-1px;height:72px;pointer-events:none;background:linear-gradient(180deg, var(--bg) 0%, transparent 100%)}
+.showcase::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:72px;pointer-events:none;background:linear-gradient(180deg, transparent 0%, var(--bg) 100%)}
+
+/* Dark brand callout band */
+.cta-band{position:relative;padding:clamp(48px, 8vw, 96px) 0;background:
+  radial-gradient(1200px 400px at 80% -10%, color-mix(in oklab, var(--sea-teal) 14%, transparent), transparent 60%),
+  radial-gradient(900px 300px at 10% -10%, color-mix(in oklab, var(--sea-green) 10%, transparent), transparent 65%),
+  linear-gradient(180deg, var(--carbon), var(--carbon-2));
+  color:#fff; border-top:1px solid #ffffff20; border-bottom:1px solid #ffffff20}
+.cta-band-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.cta-band h3{margin:0;font-size:clamp(24px, 4.4vw, 40px)}
+.cta-band p{margin:0 0 8px;color:#d8e6ef}
+.cta-band .btn.ghost{color:#fff;border-color:#ffffff80}
+.cta-band .btn.ghost:hover{background:#ffffff1c}
 
 /* Contact form */
 .contact{background:linear-gradient(180deg,var(--bg) 0%, #0e243a0a 100%)}
-.contact .contact-form{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px 22px;box-shadow:var(--shadow)}
+.contact .contact-form{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px 22px;box-shadow:var(--shadow)}
 .contact .contact-form input,.contact .contact-form textarea{font-size:16px;border-radius:14px}
 .contact .contact-form textarea{resize:none}
 .contact .contact-form .modal-actions{margin-top:18px}
@@ -224,3 +352,66 @@ html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){
   *{transition:none !important; animation:none !important}
 }
+
+/* Scroll-reveal animations (professional, subtle) */
+@media (prefers-reduced-motion: no-preference){
+  .reveal{opacity:0;transform:var(--reveal-transform, translateY(16px) scale(.98));
+    transition:opacity .6s cubic-bezier(.2,.65,.2,1), transform .6s cubic-bezier(.2,.65,.2,1);
+    transition-delay:var(--reveal-delay, 0ms); will-change:opacity, transform}
+  .reveal.is-visible{opacity:1;transform:none}
+}
+
+/* Product Gallery / Screenshots */
+.gallery{position:relative;background:linear-gradient(180deg, var(--bg) 0%, #0e243a06 100%)}
+/* Small floating clipart-style screenshots */
+.gallery-grid{display:flex;justify-content:center;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.shot{
+  margin:0;
+  width:clamp(160px, 24vw, 240px);
+  background:#fff;
+  border:1px solid color-mix(in oklab, var(--line), #dfe6ee 40%);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 10px 28px rgba(11,42,74,0.12);
+  transition:transform .18s ease, box-shadow .18s ease
+}
+.shot img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;background:#f7f9fc}
+.shot figcaption{padding:10px 12px;color:var(--muted);font-size:14px}
+.shot:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(11,42,74,0.16)}
+/* Gentle playful offsets like OSP visuals */
+/* Straighten clipart cards (no rotation/offset) */
+.shot:nth-child(1),
+.shot:nth-child(2),
+.shot:nth-child(3){transform:none}
+@media (prefers-reduced-motion: reduce){
+  .shot,.shot:hover,.shot:nth-child(1),.shot:nth-child(2),.shot:nth-child(3){transform:none}
+}
+
+/* Highlights (Why FinShield) */
+.highlights{position:relative;background:linear-gradient(180deg, var(--bg) 0%, color-mix(in oklab, var(--sea-teal) 5%, transparent) 100%)}
+.highlights-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:900px){.highlights-grid{grid-template-columns:repeat(3,1fr)}}
+.highlight-card{
+  position:relative;
+  background:
+    linear-gradient(180deg,
+      color-mix(in oklab, var(--cream) 88%, #ffffff 12%),
+      color-mix(in oklab, var(--cream-deep) 92%, #ffffff 8%)
+    );
+  border:1px solid var(--cream-border);
+  border-left:4px solid color-mix(in oklab, var(--cream-border), var(--olive) 20%);
+  border-radius:20px;
+  padding:22px;
+  box-shadow:none;
+  transition:border-color .18s ease
+}
+.highlight-card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.06;
+  background:
+    radial-gradient(1px 1px at 18% 22%, #000 30%, transparent 31%),
+    radial-gradient(1px 1px at 32% 78%, #000 30%, transparent 31%),
+    radial-gradient(1px 1px at 72% 28%, #000 30%, transparent 31%),
+    radial-gradient(1px 1px at 52% 58%, #000 30%, transparent 31%);
+}
+.highlight-card:hover{}
+.highlight-media a{display:block}
+.highlight-media a img{border-radius:20px}

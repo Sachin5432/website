@@ -339,3 +339,73 @@ contactForm?.addEventListener('submit', async e => {
     }
   }
 });
+
+// Scroll-reveal animations for a more professional feel
+(function(){
+  const mqReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mqReduced.matches) return; // Respect user preference
+
+  const sets = [
+    { sel: '.section-header', transform: 'translateY(28px) scale(.98)', stagger: 60 },
+    { sel: '.features .feature', transform: 'translateY(20px)', stagger: 90 },
+    { sel: '.news-card', transform: 'translateY(20px)', stagger: 90 },
+    { sel: '.highlights .highlight-card', transform: 'translateY(18px)', stagger: 80 },
+    { sel: '.gallery .shot', transform: 'translateY(18px)', stagger: 70 },
+    { sel: '.sponsor-card', transform: 'translateY(14px)', stagger: 60 },
+    { sel: '.video-shell', transform: 'translateY(22px)', stagger: 0 },
+    { sel: '.contact .contact-form', transform: 'translateY(22px)', stagger: 0 }
+  ];
+
+  const groups = sets.map(s => ({
+    nodes: Array.from(document.querySelectorAll(s.sel)),
+    transform: s.transform,
+    stagger: s.stagger
+  }));
+  const all = groups.flatMap(g => g.nodes);
+  if (!all.length) return;
+
+  groups.forEach(({ nodes, transform, stagger }) => {
+    nodes.forEach((el, i) => {
+      el.classList.add('reveal');
+      el.style.setProperty('--reveal-transform', transform);
+      el.style.setProperty('--reveal-delay', `${Math.min(i * (stagger || 0), 360)}ms`);
+    });
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    for (const entry of entries){
+      if (entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    }
+  }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+  all.forEach(el => io.observe(el));
+})();
+
+// Populate highlight meta with domain + formatted date
+(function(){
+  const metas = document.querySelectorAll('.highlight-row .highlight-meta');
+  metas.forEach(meta => {
+    const row = meta.closest('.highlight-row');
+    const link = row?.querySelector('.highlight-content h3 a');
+    const sourceEl = meta.querySelector('.source');
+    if (link && sourceEl) {
+      try{
+        const u = new URL(link.href);
+        sourceEl.textContent = u.hostname.replace(/^www\./,'');
+      }catch{}
+    }
+    const dateStr = meta.getAttribute('data-date');
+    const timeEl = meta.querySelector('time.date');
+    if (dateStr && timeEl) {
+      const d = new Date(dateStr);
+      if (!isNaN(d.valueOf())) {
+        const fmt = d.toLocaleDateString(undefined, { month:'short', day:'2-digit', year:'numeric' });
+        timeEl.textContent = fmt.replace(',', '');
+        timeEl.setAttribute('datetime', d.toISOString().slice(0,10));
+      }
+    }
+  });
+})();
