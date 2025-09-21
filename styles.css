@@ -84,7 +84,7 @@ body::before{
 }
 .ocean-banner .ocean-text{position:relative;z-index:1;}
 /* Keep CTAs normal inside text block, centered */
-.ocean-banner .ocean-text .cta-row{justify-content:center}
+.ocean-banner .ocean-text .cta-row{justify-content:center;margin-top:clamp(18px, 4vw, 32px)}
 .ocean-banner .ocean-text{max-width:980px;padding:clamp(18px, 4vw, 28px);color:#fff}
 .ocean-banner .ocean-text h2{margin:6px 0 10px;font-size:clamp(28px, 4.6vw, 44px);line-height:1.15}
 .ocean-banner .ocean-text .section-subtitle{color:#e6f7fb}
@@ -255,10 +255,18 @@ a{color:var(--brand-blue)}
 .highlight-content p{margin:6px 0 10px}
 .more-soon .btn[aria-disabled="true"]{cursor:default;opacity:.9}
 
-/* Demo video */
+/* Demo experience */
 .demo{position:relative;background:linear-gradient(180deg, var(--bg) 0%, #0e243a08 100%)}
 .video-shell{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
 .demo-video{display:block;width:100%;height:auto;max-height:70vh;background:color-mix(in oklab, var(--bg) 80%, transparent)}
+.expect-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media (min-width:900px){.expect-grid{grid-template-columns:repeat(3,1fr)}}
+.expect-card{background:#fff;border:1px solid color-mix(in oklab, var(--line), #dfe6ee 40%);border-radius:24px;box-shadow:0 14px 32px rgba(11,42,74,0.12);padding:32px 26px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;transition:transform .18s ease, box-shadow .18s ease}
+.expect-card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(11,42,74,0.14)}
+.expect-card h3{margin:0;font-size:20px;font-weight:600}
+.expect-card p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
+.expect-icon{display:grid;place-items:center;width:88px;height:88px;border-radius:28px;background:linear-gradient(145deg,#f7f9fc,#e1e7f1);box-shadow:inset 0 2px 6px rgba(255,255,255,0.65),0 6px 12px rgba(11,42,74,0.12);color:color-mix(in oklab, var(--brand-blue) 84%, #102840 16%)}
+.expect-icon svg{width:46px;height:46px}
 
 /* AIS showcase image — full-bleed, taller, seamless */
 .showcase{position:relative;background:transparent;padding:0}
@@ -328,31 +336,10 @@ html{scroll-behavior:smooth}
   .reveal.is-visible{opacity:1;transform:none}
 }
 
-/* Product Gallery / Screenshots */
+/* Product Gallery */
 .gallery{position:relative;background:linear-gradient(180deg, var(--bg) 0%, #0e243a06 100%)}
-/* Small floating clipart-style screenshots */
-.gallery-grid{display:flex;justify-content:center;align-items:flex-start;gap:16px;flex-wrap:wrap}
-.shot{
-  margin:0;
-  width:clamp(160px, 24vw, 240px);
-  background:#fff;
-  border:1px solid color-mix(in oklab, var(--line), #dfe6ee 40%);
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 10px 28px rgba(11,42,74,0.12);
-  transition:transform .18s ease, box-shadow .18s ease
-}
-.shot img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;background:#f7f9fc}
-.shot figcaption{padding:10px 12px;color:var(--muted);font-size:14px}
-.shot:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(11,42,74,0.16)}
-/* Gentle playful offsets like OSP visuals */
-/* Straighten clipart cards (no rotation/offset) */
-.shot:nth-child(1),
-.shot:nth-child(2),
-.shot:nth-child(3){transform:none}
-@media (prefers-reduced-motion: reduce){
-  .shot,.shot:hover,.shot:nth-child(1),.shot:nth-child(2),.shot:nth-child(3){transform:none}
-}
+.gallery-media{display:flex;justify-content:center}
+.gallery .video-shell{max-width:min(960px, 100%);margin:0 auto}
 
 /* Highlights (Why FinShield) */
 .highlights{position:relative;background:linear-gradient(180deg, var(--bg) 0%, color-mix(in oklab, var(--sea-teal) 5%, transparent) 100%)}
