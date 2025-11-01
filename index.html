@@ -11,13 +11,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (function(){
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header class="site-header">
       <div class="container nav">
         <a class="brand" href="#intro" aria-label="FinShield home">
-          <img src="assets/Logo transparent.png" alt="FinShield logo" class="logo" />
+          <img src="assets/Logo Black.png" alt="FinShield logo" class="logo" />
         </a>
         <nav class="menu" aria-label="Primary">
           <a href="#news">News</a>
@@ -329,7 +336,7 @@
       <section class="footer-cta">
         <div class="container bar">
           <div class="bar-left">
-            <img src="assets/Logo transparent.png" alt="FinShield logo" class="logo small" />
+            <img src="assets/Logo Black.png" alt="FinShield logo" class="logo small" />
           </div>
           <div class="bar-right">
             <span>Contact us</span>

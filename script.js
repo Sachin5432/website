@@ -12,6 +12,25 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
+// Apply theme based on system preference and react to changes
+(function(){
+  if (!window.matchMedia) {
+    document.documentElement.dataset.theme = 'light';
+    return;
+  }
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  const applyTheme = (isDark) => {
+    document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+  };
+  applyTheme(mq.matches);
+  const handler = (event) => applyTheme(event.matches);
+  if (typeof mq.addEventListener === 'function') {
+    mq.addEventListener('change', handler);
+  } else if (typeof mq.addListener === 'function') {
+    mq.addListener(handler);
+  }
+})();
+
 // Demo modal logic
 const modal = document.getElementById('demoModal');
 const openers = document.querySelectorAll('[data-open-demo]');
